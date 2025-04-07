@@ -1,18 +1,11 @@
-# Stage 1: Build the React application
-FROM node:14-alpine AS build
+FROM node:18-alpine as builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY . .
 RUN npm run build
 
-# Debug step: List the contents of the /app directory
-RUN ls -la /app
-
-# Stage 2: Serve the application with Nginx
-FROM fholzer/nginx-brotli:v1.12.2
-WORKDIR /etc/nginx
-ADD nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app/build /usr/share/nginx/html
+FROM nginx:latest
+COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
