@@ -1,5 +1,5 @@
 import express from "express";
-import { addScore, getData as data , getQuestions, getUsers, getScores as scorecard} from "./functions/database.js";
+import { addScore, getData as data , getQuestions, getUsers, getScores} from "./functions/database.js";
 import cors from "cors";
 
 const app = express();
@@ -10,6 +10,14 @@ app.get("/", async (req, res) => {
     const questions = await data();
     res.send(questions);
  });
+
+
+app.get("/wait",  (req, res) => { 
+  setTimeout(()=>{
+    res.send("Slow")
+  }, 5000)
+  
+});
 
  app.get("/questions/:contains", async (req, res) => {
     const contains = req.params.contains;
