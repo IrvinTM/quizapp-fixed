@@ -1,13 +1,27 @@
-const express = require("express")
+const express = require("express");
+const path = require('path'); // Import the 'path' module
 
-const app = express(); 
+const app = express();
 
 app.use(express.json());
 
-app.use(express.static('frontend/dist'))
+// Serve static files from the 'frontend/dist' directory
+app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
-const port = process.env.PORT || 8080;
+// Handle all other requests by serving index.html from the correct location
+app.get('/Analytics', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+});
 
-app.listen(port, ()=>{
-    console.log(`Listening on port ${port}...`)
-})
+
+// Handle all other requests by serving index.html from the correct location
+app.get('/Quiz', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  });
+  
+
+const port = process.env.PORT || 8081;
+
+app.listen(port, () => {
+  console.log(`Listening on port ${port}...`);
+});

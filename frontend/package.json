@@ -14,11 +14,7 @@
     "@react-three/fiber": "^9.1.0",
     "@tailwindcss/vite": "^4.0.0",
     "axios": "^1.8.3",
-<<<<<<< HEAD
     "chart.js": "^4.4.8",
-=======
-    "crypto-browserify": "^3.12.1",
->>>>>>> 3f18d466189117891f37de6ef7aeb04a22c12e96
     "express": "^4.21.2",
     "mdb-react-ui-kit": "^9.0.0",
     "react": "^19.0.0",
