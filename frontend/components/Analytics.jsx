@@ -1,14 +1,16 @@
 import NavBar from './NavBar';
 import axios from "axios";
 import React, { useRef, useEffect, useState } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from "chart.js";
+import { Line, Doughnut } from "react-chartjs-2";
 
 ChartJS.register(
-    CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend
+    CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement
 );
 
+
 export default function Analytics() {
+    // Real data from database
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [
@@ -57,6 +59,52 @@ export default function Analytics() {
         fetchScores();
     }, []); // Empty dependency array ensures this runs only once after the initial render
 
+
+
+    // mock data
+    const doughnutData = {
+        labels: ['Serverless', 'Kubernetes', 'Security', 'Networking', 'GCE', 'Data Analytics'],
+        datasets: [
+          {
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+    }
+
+
+    const doughnutOptions = {
+        scales:{
+            x:{
+                title: {
+                    display: true, 
+                    text: 'Aptitude', 
+                    color: "white"
+                }
+
+            }
+        }
+
+    }
+
+
     return (
         <>
             <NavBar />
@@ -68,7 +116,7 @@ export default function Analytics() {
                     <div>Loading data...</div>
                 )}
                     {chartData.labels.length > 0 && (
-                    <Line ref={chartRef}  data={chartData} className='ml-20' />
+                    <Doughnut ref={chartRef}  options= {doughnutOptions} data={doughnutData} className='ml-40' />
                 )}
                 {chartData.labels.length === 0 && (
                     <div>Loading data...</div>
