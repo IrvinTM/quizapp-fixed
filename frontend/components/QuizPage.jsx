@@ -13,6 +13,50 @@ export default function QuizPage() {
       getQuestions().then((data) => setQuestions(data));
     }, []);
 
+
+    const handleInputChange = (event) => {
+      // Update form data as input changes
+      const { name, value } = event.target;
+      setFormData({ ...formData, [name]: value });
+    };
+  
+
+    const submit = async (e) => {
+      // Add conditionals based on form inputs
+      e.preventDefault();
+      if( formData.answers === "true" && parseInt(formData.quantity) >= 1 ){
+        try {
+          console.log(parseInt(formData.quantity))
+           return await axios.get(`https://quizapp-backend-974768286444.us-central1.run.app/randomized/${parseInt(formData.quantity)}`).then((randomized) => {
+
+            console.log("Data retrieved successfully", randomized.data); 
+    
+            setQuestions(randomized.data); // Update the questions state with the new data
+  
+        })
+        } catch (error) {
+            console.error("Error getting data:", error);
+            if (error.response) {
+                console.error('Server responded with:', error.response.data);
+            }
+        }
+      }
+      try {
+        console.log(parseInt(formData.quantity))
+         return await axios.get(`https://quizapp-backend-974768286444.us-central1.run.app/limit/${parseInt(formData.quantity)}`).then((response) => {
+          console.log("Data retrieved successfully", response.data); 
+          setQuestions(response.data); // Update the questions state with the new data
+
+      })
+      } catch (error) {
+          console.error("Error getting data:", error);
+          if (error.response) {
+              console.error('Server responded with:', error.response.data);
+          }
+      }
+    };
+
+
     const getQuestions = () => {
       return axios
         .get('https://acostajulio-dev.wl.r.appspot.com')
@@ -31,54 +75,30 @@ export default function QuizPage() {
         });
     };
   
-  
-    const handleInputChange = (event) => {
-      // Update form data as input changes
-      const { name, value } = event.target;
-      setFormData({ ...formData, [name]: value });
-    };
-  
-    const submit = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await axios.post("https://acostajulio-dev.wl.r.appspot.com/scores", {
-          quantity: formData.quantity, 
-          answers: formData.answers, 
-        });
-          console.log("Data submitted successfully", response.data); 
-      } catch (error) {
-          console.error("Error submitting data:", error);
-          if (error.response) {
-              console.error('Server responded with:', error.response.data);
-          }
-      }
-    };
-
-      
 
   
     return (
       <>
       < NavBar/>
-         <form onSubmit={submit}> 
-          <label>
-            Backend Verification:
+         <form onSubmit={submit} className="mt-2"> 
+          <label className="ml-4">
+            Reduce Questions To:
             <input
               type="number"
               name="quantity"
               value={formData.quantity} 
               onChange={handleInputChange} 
-              className="ml-10 mt-10 mb-10 "
+              className=" ml-2 border-2 w-[5vw] rounded-md items-center text-center"
             />
-            <input
-              type="number"
-              name="answers"
-              value={formData.answers} 
-              onChange={handleInputChange} 
-            />
-          </label>
-          <button type="submit" className="text-black"
-          >Submit</button> 
+           </label>
+           <label className="ml-4">
+            Randomize Questions:
+            <select value={formData.answers} name="answers" onChange={handleInputChange} className="ml-2 w-[5vw] border-2 border-white text-white bg-gray rounded-md items-center text-center">
+            <option value="false"></option>
+             <option value="true" className="text-black" >Yes</option >
+            </select>
+            </label>
+          <button type="submit" className="ml-4 text-white bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Generate</button> 
         </form>
   
   

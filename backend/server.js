@@ -1,5 +1,5 @@
 import express from "express";
-import { addScore, getData as data , getQuestions, getUsers, getScores} from "./functions/database.js";
+import { addScore, getData as data , getQuestions, getUsers, getScores, getReducedData, getRandomData} from "./functions/database.js";
 import cors from "cors";
 
 const app = express();
@@ -11,13 +11,21 @@ app.get("/", async (req, res) => {
     res.send(questions);
  });
 
-
-app.get("/wait",  (req, res) => { 
-  setTimeout(()=>{
-    res.send("Slow")
-  }, 5000)
-  
+ app.get("/limit/:limit", async (req, res) => { 
+  const limit = req.params.limit;
+  const questions = await getReducedData(limit);
+  res.send(questions);
 });
+
+app.get("/randomized/:randomized", async (req, res) => { 
+  const randomized = req.params.randomized;
+  console.log(randomized)
+  const questions = await getRandomData(randomized);
+  res.send(questions);
+});
+
+
+
 
  app.get("/questions/:contains", async (req, res) => {
     const contains = req.params.contains;
@@ -45,14 +53,6 @@ app.get("/wait",  (req, res) => {
  })
 
  
-
- app.post("/testDatabase" , async(req, res)=>{
-  const msg = req.body
-  const users = await scorecard();
-  res.status(201).send(users);
-})
-
-
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
