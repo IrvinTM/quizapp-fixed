@@ -5,6 +5,8 @@ import { createRoot } from 'react-dom/client';
 import QuizPage from '../components/QuizPage';
 import Analytics from '../components/Analytics';
 import Profile from '../components/Profile';
+import Questions from '../components/Questions';
+import LoginPage from '../components/LoginPage';
 
 
 
@@ -16,7 +18,7 @@ const router = createBrowserRouter(
     element: <HomePage />,
   },
   {
-    path: '/quiz',
+    path: '/Quiz',
     element: <QuizPage />,
   },
   {
@@ -26,6 +28,14 @@ const router = createBrowserRouter(
   {
   path: '/Profile',
   element: <Profile />,
+  },
+  {
+    path: '/Questions',
+    element: <Questions />,
+  }, 
+  {
+    path: '/Login',
+    element: <LoginPage />,
   }
 ]
 )
