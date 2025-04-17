@@ -1,5 +1,8 @@
 import NavBar from "./NavBar"
 import almost from '../src/assets/almost.gif'
+import { useNavigate } from 'react-router-dom';
+
+
 import { MDBContainer, MDBRadio, MDBRow,
   MDBBtn,
   MDBModal,
@@ -13,6 +16,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function QuizPage() {
+     const navigate = useNavigate();
 
     const [basicModal, setBasicModal] = useState(false);
     const [answers, setAnswers] = useState({});
@@ -50,6 +54,10 @@ export default function QuizPage() {
       }));
     };
     
+    const returnHomePage = () => {
+      navigate('/');
+
+    }
 
     const submit = async (e) => {
       // Add conditionals based on form inputs
@@ -121,7 +129,7 @@ export default function QuizPage() {
 
     const getQuestions = () => {
       return axios
-        .get('https://acostajulio-dev.wl.r.appspot.com')
+        .get('https://quizapp-backend-974768286444.us-central1.run.app/limit/20')
         .then((response) => {
           return response.data;
         })
@@ -148,7 +156,7 @@ export default function QuizPage() {
               </MDBModalBody>
 
               <MDBModalFooter>
-                <MDBBtn color='secondary' onClick={toggleOpen}>
+                <MDBBtn color='secondary' onClick={returnHomePage}>
                 Return to Main Page
                 </MDBBtn>
                 <MDBBtn className="ml-10" onClick={reviewExam}>
@@ -161,12 +169,13 @@ export default function QuizPage() {
   
 
 
-         <form onSubmit={submit} className="mt-2"> 
+         <form onSubmit={submit} className="mt-2 flex items-center justify-center"> 
           <label className="ml-4">
-            Reduce Questions To:
+            Reduce / Increase Questions To:
             <input
               type="number"
               name="quantity"
+              min = "0"
               value={formData.quantity} 
               onChange={handleInputChange} 
               className=" ml-2 border-2 w-[5vw] rounded-md items-center text-center"
@@ -182,13 +191,13 @@ export default function QuizPage() {
           <button type="submit" className="ml-4 bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Generate</button> 
         </form>
   
-  
-        <MDBContainer>
+  <div className="flex items-center justify-center w-[100vw]">
+        <MDBContainer className="mt-2 ">
           <MDBRow className="justify-content-center border-solid">
             <form action="POST">
               {questions.map((question, index) => (
                 <div key={index} className="border border-primary p-3 m-3">
-                  <p>{question.questions}</p>
+                  <p className="mb-4">{question.questions}</p>
                   <MDBRadio
                     name={`flexRadioDefault-${index}`}
                     id={`flexRadioDefault1-${index}`}
@@ -200,14 +209,14 @@ export default function QuizPage() {
                     name={`flexRadioDefault-${index}`}
                     id={`flexRadioDefault2-${index}`}
                     label={question.opt_b}
-                    className='mb-2 mt-2 ml-2 mr-2'
+                     className='mb-4 mt-4 ml-2 mr-2'
                     onChange={() => handleAnswerChange(index, question.q_id ,'B')}
                   />
                   <MDBRadio
                     name={`flexRadioDefault-${index}`}
                     id={`flexRadioDefault3-${index}`}
                     label={question.opt_c}
-                    className='mb-2 mt-2 ml-2 mr-2'
+                    className='mb-4 mt-2 ml-2 mr-2'
                     onChange={() => handleAnswerChange(index, question.q_id ,'C')}
                   />
                   <MDBRadio
@@ -217,7 +226,6 @@ export default function QuizPage() {
                     className='mb-2 mt-2 ml-2 mr-2'
                     onChange={() => handleAnswerChange(index, question.q_id ,'D')}
                   />
-                  
                   {showAnswers && <h2 className="border-2 border-green-300 px-2 py-2 mt-2 mb-2">{question.answer}</h2>}
 
                 </div>
@@ -228,11 +236,15 @@ export default function QuizPage() {
     
           {showButton && <input type="submit" value="Submit" className=" position:relative ml-2 mb-2 bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-center border-2 w-[10vw] h-[5vh]" onClick={send} /> }
         </MDBContainer>
+        </div>
 
       </>
     );
   
 }
+
+
+
 
 
 
