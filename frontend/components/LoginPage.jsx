@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import {getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect} from 'firebase/auth';
+import {getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect, connectAuthEmulator} from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -31,24 +31,10 @@ export default function LoginPage() {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const singIn = () => {
-    console.log("Sign-in initiated...");
-    signInWithRedirect(auth, new GoogleAuthProvider());
-}
-
-onAuthStateChanged(auth, user => {
-    if(user !== null){
-        console.log(user)
-    }
-    else{
-        console.log(user)
-    }
-})
-
+connectAuthEmulator(auth, "http://localhost:9099")
 
 return (
     <>
-    <button onClick={singIn}>Login</button>
     </>
 )
 }

@@ -58,6 +58,10 @@ export default function QuizPage() {
       navigate('/');
 
     }
+    
+    const resetPage = () => {
+      window.location.reload();
+    }
 
     const submit = async (e) => {
       // Add conditionals based on form inputs
@@ -189,6 +193,7 @@ export default function QuizPage() {
             </select>
             </label>
           <button type="submit" className="ml-4 bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Generate</button> 
+          <button type="submit" className="ml-4 bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={resetPage}>New Exam</button> 
         </form>
   
   <div className="flex items-center justify-center w-[100vw]">
