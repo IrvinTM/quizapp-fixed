@@ -68,12 +68,12 @@ export default function Profile(){
     <p className="text-sm mb-2">Account Created: 2025-04-15</p>
   </div>
   </div>
+        <Footer/>
 
                 </>
                 ) : (
                     <p>Loading...</p>
                 )}
-        <Footer/>
         </>
     )
 }
