@@ -108,14 +108,15 @@ export default function Analytics() {
     return (
         <>
             <NavBar />
-            <div className='flex-wrap flex items-center justify-center w-[100vw]'>
+            <div className='bg-black h-screen'>
+            <div className='flex-wrap flex items-center justify-center w-[100vw] '>
             <h2>This is curently just mock data to test the database connections</h2>
             </div>
             <div className='flex-wrap flex items-center justify-center w-[100vw]'>
             <h2>Still have to set up users to be able to track on form submit</h2>
             </div>
 
-            <div className="chart w-[100vw] h-[50vh] flex">
+            <div className="chart w-[100vw] h-[50vh] flex ">
                 {chartData.labels.length > 0 && (
                     <Line ref={chartRef}  data={chartData} className='ml-20' />
                 )}
@@ -128,6 +129,7 @@ export default function Analytics() {
                 {chartData.labels.length === 0 && (
                     <div>Loading data...</div>
                 )}
+            </div>
             </div>
         </>
     );

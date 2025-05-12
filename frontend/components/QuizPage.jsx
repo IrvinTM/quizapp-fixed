@@ -147,7 +147,7 @@ export default function QuizPage() {
     return (
       <>
       < NavBar/>
-
+    <div className="bg-black screen full">
       <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex='-1' staticBackdrop >
           <MDBModalDialog centered className="fixed left-0 top-0 bg-white bg-opacity-50 w-screen h-screen">
             <MDBModalContent className="flex flex-col items-center justify-center h-screen">
@@ -172,9 +172,8 @@ export default function QuizPage() {
       </MDBModal>
   
 
-
-         <form onSubmit={submit} className="mt-2 flex items-center justify-center"> 
-          <label className="ml-4">
+         <form onSubmit={submit} className="  flex items-center justify-center "> 
+          <label className="ml-4 mt-2">
             Reduce / Increase Questions To:
             <input
               type="number"
@@ -185,15 +184,15 @@ export default function QuizPage() {
               className=" ml-2 border-2 w-[5vw] rounded-md items-center text-center"
             />
            </label>
-           <label className="ml-4">
+           <label className="ml-4 mt-2">
             Randomize Questions:
             <select value={formData.answers} name="answers" onChange={handleInputChange} className="ml-2 w-[5vw] border-2 border-white text-white bg-gray rounded-md items-center text-center">
             <option value="false"></option>
              <option value="true" className="text-black">Yes</option >
             </select>
             </label>
-          <button type="submit" className="ml-4 bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Generate</button> 
-          <button type="submit" className="ml-4 bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={resetPage}>New Exam</button> 
+          <button type="submit" className="ml-4 bg-blue mt-4 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Generate</button> 
+          <button type="submit" className="ml-4 bg-blue mt-4 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={resetPage}>New Exam</button> 
         </form>
   
   <div className="flex items-center justify-center w-[100vw]">
@@ -242,7 +241,7 @@ export default function QuizPage() {
           {showButton && <input type="submit" value="Submit" className=" position:relative ml-2 mb-2 bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-center border-2 w-[10vw] h-[5vh]" onClick={send} /> }
         </MDBContainer>
         </div>
-
+        </div>
       </>
     );
   

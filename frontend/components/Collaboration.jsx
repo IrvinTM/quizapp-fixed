@@ -16,7 +16,7 @@ function RotatingSphere() {
 
     return (
         <mesh ref={sphereRef}>
-            <sphereGeometry args={[1, 48, 48]} />
+            <sphereGeometry args={[2, 48, 48]} />
             <meshStandardMaterial map={colorMap} />
         </mesh>
     );
