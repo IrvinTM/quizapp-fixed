@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadAll } from "@tsparticles/all"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
+import { loadAll } from "@tsparticles/all"; 
+
 
 function Login({ onSignUpClick }){
     return (
@@ -16,8 +17,8 @@ function Login({ onSignUpClick }){
     <div className="ml-24">
     <input 
      type="text"
-     id="name"
-     name="name"
+     id="username"
+     name="username"
      required
      minLength="4"
      maxLength="10"
@@ -30,8 +31,8 @@ function Login({ onSignUpClick }){
     <div className="ml-24">
     <input 
      type="password"
-     id="name"
-     name="name"
+     id="password"
+     name="password"
      required
      minLength="4"
      maxLength="8"
@@ -45,7 +46,7 @@ function Login({ onSignUpClick }){
     </div>
 
     <div>
-    <a href="/" className="ml-32 text-xl text-white border-2 rounded-e-4xl px-4 py-4 border-black bg-black">Proceed without data</a>
+    <a href="/" className="ml-32 text-xl text-white border-2 px-4 py-4 border-black bg-black">Proceed without data</a>
     </div>
     </div>
     </div>
@@ -53,8 +54,112 @@ function Login({ onSignUpClick }){
 }
 
 
-function SignUp(){
-  return <p>Hello World</p>
+function SignUp({onLoginClick}){
+    return (
+        <div className="h-screen w-full flex items-center justify-center fixed z-100">
+        <div className="container bg-white w-1/2 h-[60vh] rounded-2xl">
+        <div className="ml-24">
+        <h2 className="text-black text-4xl mt-10 mb-2">Sign Up</h2>
+        <p className="text-black text-lg mb-4"> Please fill in the required fields</p>
+        </div>
+        <div className="columns-2 ">
+        <div className="flex items-center justify-center">
+        <label className="text-black text-xl mb-2 w-1/2">First Name</label>
+        </div>
+        <div className="flex items-center justify-center" >
+        <input 
+         type="text"
+         id="name"
+         name="name"
+         required
+         minLength="4"
+         maxLength="10"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
+         </div>
+         <div className="flex items-center" >
+        <label className="text-black text-xl">Last Name</label>
+        </div>
+        <div className="flex items-center mt-2">
+        <input 
+         type="text"
+         id="name"
+         name="name"
+         required
+         minLength="4"
+         maxLength="10"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
+         </div>
+         </div>
+         <div className="columns-2">
+        <div className="flex items-center justify-center">
+        <label className="text-black text-xl mb-2 w-1/2">Username</label>
+        </div>
+        <div className="flex items-center justify-center">
+        <input 
+         type="text"
+         id="name"
+         name="name"
+         required
+         minLength="4"
+         maxLength="10"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
+         </div>
+         <div className="flex items-center">
+        <label className="text-black text-xl mb-2">Email</label>
+        </div>
+        <div>
+        <input 
+         type="email"
+         id="email"
+         name="email"
+         required
+         minLength="4"
+         maxLength="8"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
+        </div> 
+        </div>
+        <div className="columns-2">
+        <div className="flex items-center justify-center">
+        <label className="text-black text-xl mb-2 w-1/2">Password</label>
+        </div>
+        <div className="flex items-center justify-center">
+        <input 
+         type="password"
+         id="password"
+         name="password"
+         required
+         minLength="4"
+         maxLength="10"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
+         </div>
+         <div className="flex items-center">
+        <label className="text-black text-xl mb-2">Confirm Password</label>
+        </div>
+        <div>
+        <input 
+         type="password"
+         id="confirmPassword"
+         name="confirmPassword"
+         required
+         minLength="4"
+         maxLength="8"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
+        </div> 
+        </div>
+        <div className="flex items-center justify-center mt-5 mr-20">
+        <button className=" text-white" onClick={onLoginClick}>Log In</button>
+        </div>
+    
+
+        </div>
+        </div>
+        )
 }
 
 export default function LoginPage(){
@@ -182,7 +287,7 @@ export default function LoginPage(){
          {activeSection === "login" ? (
           <Login onSignUpClick={() => setActiveSection("SignUp")} />
           ) : (
-          <SignUp />
+          <SignUp onLoginClick = {()=> setActiveSection("login")} />
         )}
       </div>
         </>

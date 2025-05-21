@@ -35,7 +35,6 @@ export default function Analytics() {
                  // Generates an array from the labels of the object that was returned from the API call
                 const labelsFromApi = scoresData.map(item => item.date.replace(/\.\d\d+\d[Z]/ , ""));
                 
-                // Generates an array from the scores of the object that was returned from the API call
                 const dataFromApi = scoresData.map(item => item.score);
 
                 setChartData({
@@ -57,7 +56,7 @@ export default function Analytics() {
         };
 
         fetchScores();
-    }, []); // Empty dependency array ensures this runs only once after the initial render
+    }, []); 
 
 
 
@@ -110,10 +109,8 @@ export default function Analytics() {
             <NavBar />
             <div className='bg-black h-screen'>
             <div className='flex-wrap flex items-center justify-center w-[100vw] '>
-            <h2>This is curently just mock data to test the database connections</h2>
             </div>
             <div className='flex-wrap flex items-center justify-center w-[100vw]'>
-            <h2>Still have to set up users to be able to track on form submit</h2>
             </div>
 
             <div className="chart w-[100vw] h-[50vh] flex ">
@@ -127,8 +124,19 @@ export default function Analytics() {
                     <Doughnut ref={chartRef}  options= {doughnutOptions} data={doughnutData} className='ml-40' />
                 )}
                 {chartData.labels.length === 0 && (
-                    <div>Loading data...</div>
-                )}
+                    <div className='flex w-full items-center justify-center'>
+                        <div className='container bg-gray-800 w-1/3 h-1/2'>
+                        <div className='w-full flex h-10 border-2 border-gray-700'>
+                        <li className='text-2xl ml-2 text-green-300'></li>
+                        <li className='text-2xl  text-yellow-300'></li>
+                        <li className='text-2xl  text-red-300'></li>
+                        </div>
+                        <div className='flex items-center justify-center text-green-300 mt-10 animate-pulse'>
+                        Loading data...
+                        </div>
+                        </div>
+                    </div>
+                 )} 
             </div>
             </div>
         </>

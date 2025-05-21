@@ -16,8 +16,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function QuizPage() {
-     const navigate = useNavigate();
-
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true)
     const [basicModal, setBasicModal] = useState(false);
     const [answers, setAnswers] = useState({});
     const [questions, setQuestions] = useState([]);
@@ -25,8 +25,18 @@ export default function QuizPage() {
     const [storeQuestions, setStoreQuestions] = useState([]);
     const [showAnswers, setShowAnswers] = useState(false);
     const [showButton, setShowbutton] = useState(true);
-
+    const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
     let [correctAnswers, setCorrectAnswers] = useState(0)
+
+    const loadingMessages = [
+      "Loading Questions...",
+      "Fetching the Latest Quiz Questions...",
+      "Building Your Exam...",
+      "Jeez this is taking longer than expected huh...",
+      "Maybe Julio wrote some buggy code like always...",
+      "Reading Packages lists...done",
+
+    ];
 
 
     const toggleOpen = () => setBasicModal(!basicModal);
@@ -37,8 +47,18 @@ export default function QuizPage() {
       setBasicModal(!basicModal);
     } 
 
+
+    // COME BACK AND CHANGE THIS !!!!!!!
     useEffect(() => {
-      getQuestions().then((data) => setQuestions(data));
+      setLoading(true);
+
+      setInterval(() => {
+        setLoadingMessageIndex((prevIndex) => (prevIndex + 1) % loadingMessages.length);
+      }, 1000); 
+
+    
+        getQuestions().then((data) => setQuestions(data)).finally(()=> setLoading(false));
+
     }, []);
 
 
@@ -104,7 +124,6 @@ export default function QuizPage() {
 
 
     const send = async () => {
-      // Add conditionals based on form inputs
       let regex = /:\s(\w)/
       let count = 0
       try {
@@ -118,7 +137,6 @@ export default function QuizPage() {
           console.log(correctAnswers)
           toggleOpen();
         }
-        // console.log("Selected answers:", answers);
        catch (error) {
           console.error("Error getting data:", error);
           if (error.response) {
@@ -133,7 +151,7 @@ export default function QuizPage() {
 
     const getQuestions = () => {
       return axios
-        .get('https://quizapp-backend-974768286444.us-central1.run.app/limit/20')
+        .get('https://quizapp-backend-974768286444.us-central1.run.app/limit/50')
         .then((response) => {
           return response.data;
         })
@@ -146,20 +164,42 @@ export default function QuizPage() {
   
     return (
       <>
-      < NavBar/>
-    <div className="bg-black screen full">
+    < NavBar/>
+    { loading ? (
+       <div className='flex w-full h-screen items-center justify-center'>
+       <div className='container bg-gray-800 w-1/3 h-1/2'>
+       <div className='w-full flex h-10 border-2 border-gray-700'>
+       <li className='text-2xl ml-2 text-green-300'></li>
+       <li className='text-2xl  text-yellow-300'></li>
+       <li className='text-2xl  text-red-300'></li>
+       </div>
+       <div className='flex items-center justify-center text-green-300 mt-10 animate-pulse'>
+       {loadingMessages[loadingMessageIndex-1]}       
+
+       </div>
+       <div className='flex items-center justify-center text-green-300 mt-10 animate-pulse'>
+       {loadingMessages[loadingMessageIndex]}       
+       </div>
+       <div className='flex items-center justify-center text-green-300 mt-10 animate-pulse'>
+   
+       {loadingMessages[loadingMessageIndex+1]}       
+ 
+       </div>
+       </div>
+    </div>
+    ) : (
+     <div className="bg-black screen full">
       <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex='-1' staticBackdrop >
           <MDBModalDialog centered className="fixed left-0 top-0 bg-white bg-opacity-50 w-screen h-screen">
             <MDBModalContent className="flex flex-col items-center justify-center h-screen">
               <MDBModalHeader>
                 <MDBModalTitle className="bg-black flex items-center justify-center text-2xl h-10 w-30 border-2 px-2 py-2 rounded-2xl">Scorecard</MDBModalTitle>
-              </MDBModalHeader>
-              <MDBModalBody className="flex flex-col items-center justify-center">
+                </MDBModalHeader>
+                <MDBModalBody className="flex flex-col items-center justify-center">
                 <h2 className="text-black text-3xl mt-10 mb-10 border-3 px-2 py-2 rounded-2xl">Correct Answers: {correctAnswers} / Total Questions: {storeQuestions.length}  = {(correctAnswers/ storeQuestions.length) * 100 } % </h2>
                 <img src={almost} alt="gif not found..." className="h-[30vh] w-[30vw] mb-10"/>
-              </MDBModalBody>
-
-              <MDBModalFooter>
+               </MDBModalBody>
+                <MDBModalFooter>
                 <MDBBtn color='secondary' onClick={returnHomePage}>
                 Return to Main Page
                 </MDBBtn>
@@ -235,6 +275,7 @@ export default function QuizPage() {
                 </div>
                 
               ))}
+              
             </form>
           </MDBRow>
     
@@ -242,6 +283,7 @@ export default function QuizPage() {
         </MDBContainer>
         </div>
         </div>
+    )}
       </>
     );
   
