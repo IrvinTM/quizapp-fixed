@@ -11,10 +11,10 @@ function Login({ onSignUpClick }){
     <h2 className="text-black text-4xl mt-10 mb-2"> Welcome</h2>
     <p className="text-black text-lg mb-4"> Please enter your details</p>
     </div>
-    <div className="ml-24">
+    <div className="flex items-center justify-center">
     <label className="text-black text-xl mb-2">Username</label>
     </div>
-    <div className="ml-24">
+    <div className="flex items-center justify-center">
     <input 
      type="text"
      id="username"
@@ -25,10 +25,10 @@ function Login({ onSignUpClick }){
      size="10"
      className="border-black border-2 w-1/2 text-black mb-4"/>
      </div>
-     <div className="ml-24">
+     <div className="flex items-center justify-center">
     <label className="text-black text-xl mb-2">Password</label>
     </div>
-    <div className="ml-24">
+    <div className="flex items-center justify-center ">
     <input 
      type="password"
      id="password"
@@ -45,8 +45,8 @@ function Login({ onSignUpClick }){
     <button className=" text-white" onClick={onSignUpClick}>Sign Up</button>
     </div>
 
-    <div>
-    <a href="/" className="ml-32 text-xl text-white border-2 px-4 py-4 border-black bg-black">Proceed without data</a>
+    <div className="flex items-center justify-center mt-4 mb-10">
+    <a href="/" className="text-xl text-white border-2 px-4 py-4 border-black bg-black">Proceed without data</a>
     </div>
     </div>
     </div>
