@@ -27,6 +27,8 @@ export default function QuizPage() {
     const [showButton, setShowbutton] = useState(true);
     const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
     let [correctAnswers, setCorrectAnswers] = useState(0)
+    const [memes, setMemes] = useState([]);
+
 
     const loadingMessages = [
       "Loading Questions...",
@@ -95,7 +97,6 @@ export default function QuizPage() {
               answers: values.answer
             }));; // Extract the question IDs from the randomized data
             setStoreQuestions(answers)
-            console.log(answers)
             setQuestions(randomized.data); // Update the questions state with the new data
   
         })
@@ -108,7 +109,6 @@ export default function QuizPage() {
       }
       try {
          return await axios.get(`https://quizapp-backend-974768286444.us-central1.run.app/limit/${parseInt(formData.quantity)}`).then((response) => {
-          console.log("Data retrieved successfully", response.data); 
           setQuestions(response.data); // Update the questions state with the new data
 
       })
@@ -134,8 +134,15 @@ export default function QuizPage() {
             }
           }
           setCorrectAnswers(count)
-          console.log(correctAnswers)
           toggleOpen();
+
+          return axios.get('https://api.nasa.gov/planetary/apod', {
+            params: {
+              api_key: 'DEMO_KEY', // Replace with your actual API key
+            }
+          }).then((response) => {
+             setMemes(response.data.hdurl);
+          })
         }
        catch (error) {
           console.error("Error getting data:", error);
@@ -144,8 +151,6 @@ export default function QuizPage() {
           }
       }
     };
-
-
 
 
 
@@ -197,7 +202,7 @@ export default function QuizPage() {
                 </MDBModalHeader>
                 <MDBModalBody className="flex flex-col items-center justify-center">
                 <h2 className="text-black text-3xl mt-10 mb-10 border-3 px-2 py-2 rounded-2xl">Correct Answers: {correctAnswers} / Total Questions: {storeQuestions.length}  = {(correctAnswers/ storeQuestions.length) * 100 } % </h2>
-                <img src={almost} alt="gif not found..." className="h-[30vh] w-[30vw] mb-10"/>
+                { (correctAnswers/ storeQuestions.length) * 100  >= 80 ? <h2 className="text-black text-3xl mt-10 mb-10 border-3 px-2 py-2 rounded-2xl">You Passed!</h2> : <><h2>Hey you failed but here is a meme:</h2> <img src={memes} alt="gif not found..." className="h-[30vh] w-[30vw] mb-10"/> </> }
                </MDBModalBody>
                 <MDBModalFooter>
                 <MDBBtn color='secondary' onClick={returnHomePage}>
@@ -211,6 +216,7 @@ export default function QuizPage() {
           </MDBModalDialog>
       </MDBModal>
   
+   
 
          <form onSubmit={submit} className="  flex items-center justify-center "> 
           <label className="ml-4 mt-2">

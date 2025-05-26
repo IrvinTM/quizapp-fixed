@@ -17,7 +17,7 @@ export default function HomePage() {
     Text Color:oklch(0.359_0.144_278.697) */}
 
       <NavBar/>
-
+      <div className='h-screen w-full bg-black'>
       <div className="flex items-center justify-center h-50 bg-[oklch(0.141_0.005_285.823)]">
       <div className="flex items-center justify-center bg-black-100 p-3 rounded-lg hover:scale-105 transition-transform hover:text-blue-500 duration-300">
       <a href="/Quiz" className="flex w-42 py-2 px-2 items-center justify-center border-double text-xl text-white border-5 rounded-lg border-blue-500 hover:border-blue-300">Take ACE Quiz</a>
@@ -66,7 +66,7 @@ export default function HomePage() {
     </div>
 
     <Collaboration/>
-
+    </div>
     </>
   );
 }

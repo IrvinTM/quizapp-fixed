@@ -3,7 +3,6 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadAll } from "@tsparticles/all"; 
 
 
-
 function Login({ onSignUpClick }){
     return (
     <div className="h-screen w-full flex items-center justify-center fixed z-100">
@@ -12,10 +11,10 @@ function Login({ onSignUpClick }){
     <h2 className="text-black text-4xl mt-10 mb-2"> Welcome</h2>
     <p className="text-black text-lg mb-4"> Please enter your details</p>
     </div>
-    <div className="flex items-center justify-center">
+    <div className="ml-24">
     <label className="text-black text-xl mb-2">Username</label>
     </div>
-    <div className="flex items-center justify-center">
+    <div className="ml-24">
     <input 
      type="text"
      id="username"
@@ -26,10 +25,10 @@ function Login({ onSignUpClick }){
      size="10"
      className="border-black border-2 w-1/2 text-black mb-4"/>
      </div>
-     <div className="flex items-center justify-center">
+     <div className="ml-24">
     <label className="text-black text-xl mb-2">Password</label>
     </div>
-    <div className="flex items-center justify-center">
+    <div className="ml-24">
     <input 
      type="password"
      id="password"
@@ -46,8 +45,8 @@ function Login({ onSignUpClick }){
     <button className=" text-white" onClick={onSignUpClick}>Sign Up</button>
     </div>
 
-    <div className="flex items-center justify-center mt-4 mb-10">
-    <a href="/" className="text-xl text-white border-2 px-4 py-4 border-black bg-black">Proceed without data</a>
+    <div>
+    <a href="/" className="ml-32 text-xl text-white border-2 px-4 py-4 border-black bg-black">Proceed without data</a>
     </div>
     </div>
     </div>
@@ -56,149 +55,114 @@ function Login({ onSignUpClick }){
 
 
 function SignUp({onLoginClick}){
-    const [containerHeight, setContainerHeight] = useState('60vh'); 
-    const [selectedImage, setSelectedImage] = useState(null);
-
     return (
         <div className="h-screen w-full flex items-center justify-center fixed z-100">
-            <div className="container bg-white w-1/2 h-[60vh] rounded-2xl"   style={{ height: containerHeight }}>
-            <div className="ml-24">
-            <h2 className="text-black text-4xl mt-10 mb-2">Sign Up</h2>
+        <div className="container bg-white w-1/2 h-[60vh] rounded-2xl">
+        <div className="ml-24">
+        <h2 className="text-black text-4xl mt-10 mb-2">Sign Up</h2>
         <p className="text-black text-lg mb-4"> Please fill in the required fields</p>
         </div>
         <div className="columns-2 ">
-            <div className="flex items-center justify-center">
-            <label className="text-black text-xl mb-2 w-1/2">First Name</label>
+        <div className="flex items-center justify-center">
+        <label className="text-black text-xl mb-2 w-1/2">First Name</label>
         </div>
         <div className="flex items-center justify-center" >
-         <input 
-            type="text"
-            id="name"
-            name="name"
-            required
-            minLength="4"
-            maxLength="10"
-            size="10"
-            className="border-black border-2 w-1/2 text-black mb-4"/>
+        <input 
+         type="text"
+         id="name"
+         name="name"
+         required
+         minLength="4"
+         maxLength="10"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
          </div>
          <div className="flex items-center" >
-            <label className="text-black text-xl">Last Name</label>
+        <label className="text-black text-xl">Last Name</label>
         </div>
         <div className="flex items-center mt-2">
-          <input 
-            type="text"
-            id="name"
-            name="name"
-            required
-            minLength="4"
-            maxLength="10"
-            size="10"
-            className="border-black border-2 w-1/2 text-black mb-4"/>
+        <input 
+         type="text"
+         id="name"
+         name="name"
+         required
+         minLength="4"
+         maxLength="10"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
          </div>
          </div>
          <div className="columns-2">
-            <div className="flex items-center justify-center">
-            <label className="text-black text-xl mb-2 w-1/2">Username</label>
+        <div className="flex items-center justify-center">
+        <label className="text-black text-xl mb-2 w-1/2">Username</label>
         </div>
         <div className="flex items-center justify-center">
         <input 
-            type="text"
-            id="name"
-            name="name"
-            required
-            minLength="4"
-            maxLength="10"
-            size="10"
-            className="border-black border-2 w-1/2 text-black mb-4"/>
+         type="text"
+         id="name"
+         name="name"
+         required
+         minLength="4"
+         maxLength="10"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
          </div>
          <div className="flex items-center">
         <label className="text-black text-xl mb-2">Email</label>
         </div>
         <div>
         <input 
-            type="email"
-            id="email"
-            name="email"
-            required
-            minLength="4"
-            maxLength="8"
-            size="10"
-            className="border-black border-2 w-1/2 text-black mb-4"/>
+         type="email"
+         id="email"
+         name="email"
+         required
+         minLength="4"
+         maxLength="8"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
         </div> 
         </div>
-            <div className="columns-2">
-            <div className="flex items-center justify-center">
-            <label className="text-black text-xl mb-2 w-1/2">Password</label>
-            </div>
-            <div className="flex items-center justify-center">
+        <div className="columns-2">
+        <div className="flex items-center justify-center">
+        <label className="text-black text-xl mb-2 w-1/2">Password</label>
+        </div>
+        <div className="flex items-center justify-center">
         <input 
-            type="password"
-            id="password"
-            name="password"
-            required
-            minLength="4"
-            maxLength="10"
-            size="10"
-            className="border-black border-2 w-1/2 text-black mb-4"/>
+         type="password"
+         id="password"
+         name="password"
+         required
+         minLength="4"
+         maxLength="10"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
          </div>
          <div className="flex items-center">
         <label className="text-black text-xl mb-2">Confirm Password</label>
         </div>
         <div>
         <input 
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            required
-            minLength="4"
-            maxLength="8"
-            size="10"
-            className="border-black border-2 w-1/2 text-black mb-4"/>
+         type="password"
+         id="confirmPassword"
+         name="confirmPassword"
+         required
+         minLength="4"
+         maxLength="8"
+         size="10"
+         className="border-black border-2 w-1/2 text-black mb-4"/>
         </div> 
         </div>
-        <div className="flex flex-col items-center justify-center text-black">
-        <label className="text-black">Upload a profile picture</label>
-
-        {selectedImage && (
-            <div className="my-2">
-            <img
-                alt="not found"
-                width={"250px"}
-                src={URL.createObjectURL(selectedImage)}
-            />
-            setContainerHeight('100vh')
-            <br />
-            <button className="text-white" onClick={() => setSelectedImage(null)}>Remove</button>
-            </div>
-        )}
-
-        <input
-            type="file"
-            id="myImage"
-            name="myImage"
-            accept="image/png, image/jpeg, image/jpg"
-            onChange={(e) => setSelectedImage(e.target.files[0])}
-            className="hidden"
-        />
-        <label htmlFor="myImage" className="cursor-pointer bg-black text-white px-4 py-2 rounded mt-2">
-            {selectedImage ? "Change Image" : "Choose Image"}
-        </label>
-        <p className="text-sm mt-1">{selectedImage?.name || "No file chosen"}</p>
-        </div>
-
         <div className="flex items-center justify-center mt-5 mr-20">
         <button className=" text-white" onClick={onLoginClick}>Log In</button>
         </div>
-   
+    
 
         </div>
-
         </div>
         )
 }
 
 export default function LoginPage(){
-    
 
     const [init, setInit] = useState(false);
     const [activeSection, setActiveSection] = useState("login")
