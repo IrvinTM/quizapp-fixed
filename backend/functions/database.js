@@ -15,11 +15,23 @@
         password: 'Javascript1997!',
         database: 'gcp_testzilla_db'
     }).promise();
+ 
+    export async function findSingleUser(username){
+        const [rows] = await pool.query('SELECT username, password FROM Users where username = ?', [username]);
+        return rows;
+    }
+
+
+    export async function addUser(username, name, email, password){
+        const result = await pool.query(`INSERT INTO Users (username, name, email, password) VALUES (?,?,?,? )`, [username, name, email, password])
+        return result;
+     }
 
     export async function getData(){
         const [rows] = await pool.query('SELECT * FROM questions');
         return rows;
     }
+
 
      export async function getReducedData(quantity){
         const [rows] = await pool.query('SELECT * FROM questions LIMIT ?' , [parseInt(quantity)]);
@@ -36,7 +48,7 @@
                 return rows;
               } catch (error) {
                 console.error("Error fetching random data:", error);
-                throw error; // It's good practice to re-throw the error or handle it appropriately
+                throw error; 
               }
         }
 
