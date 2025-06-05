@@ -1,7 +1,5 @@
 import NavBar from "./NavBar"
-import almost from '../src/assets/almost.gif'
 import { useNavigate } from 'react-router-dom';
-
 
 import { MDBContainer, MDBRadio, MDBRow,
   MDBBtn,
@@ -15,6 +13,10 @@ import { MDBContainer, MDBRadio, MDBRow,
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+
+let indexesOfIncorrect = []
+
+
 export default function QuizPage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true)
@@ -27,8 +29,6 @@ export default function QuizPage() {
     const [showButton, setShowbutton] = useState(true);
     const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
     let [correctAnswers, setCorrectAnswers] = useState(0)
-    const [memes, setMemes] = useState([]);
-
 
     const loadingMessages = [
       "Loading Questions...",
@@ -50,14 +50,8 @@ export default function QuizPage() {
     } 
 
 
-    // COME BACK AND CHANGE THIS !!!!!!!
     useEffect(() => {
       setLoading(true);
-
-      setInterval(() => {
-        setLoadingMessageIndex((prevIndex) => (prevIndex + 1) % loadingMessages.length);
-      }, 1000); 
-
     
         getQuestions().then((data) => setQuestions(data)).finally(()=> setLoading(false));
 
@@ -86,7 +80,6 @@ export default function QuizPage() {
     }
 
     const submit = async (e) => {
-      // Add conditionals based on form inputs
       e.preventDefault();
 
       if( formData.answers === "true" && parseInt(formData.quantity) >= 1 ){
@@ -97,6 +90,7 @@ export default function QuizPage() {
               answers: values.answer
             }));; // Extract the question IDs from the randomized data
             setStoreQuestions(answers)
+            console.log(answers)
             setQuestions(randomized.data); // Update the questions state with the new data
   
         })
@@ -109,6 +103,7 @@ export default function QuizPage() {
       }
       try {
          return await axios.get(`https://quizapp-backend-974768286444.us-central1.run.app/limit/${parseInt(formData.quantity)}`).then((response) => {
+          console.log("Data retrieved successfully", response.data); 
           setQuestions(response.data); // Update the questions state with the new data
 
       })
@@ -129,20 +124,15 @@ export default function QuizPage() {
       try {
         for(let i = 0; i <= storeQuestions.length-1; i++){
             if(storeQuestions[i].q_id === answers[i].q_id && storeQuestions[i].answers.match(regex)[1] === answers[i].answer){
-              console.log("Correct answer")
               count++
+            }else{
+              indexesOfIncorrect.push(i)
             }
           }
+          console.log(indexesOfIncorrect)
+
           setCorrectAnswers(count)
           toggleOpen();
-
-          return axios.get('https://api.nasa.gov/planetary/apod', {
-            params: {
-              api_key: 'DEMO_KEY', // Replace with your actual API key
-            }
-          }).then((response) => {
-             setMemes(response.data.hdurl);
-          })
         }
        catch (error) {
           console.error("Error getting data:", error);
@@ -152,11 +142,9 @@ export default function QuizPage() {
       }
     };
 
-
-
     const getQuestions = () => {
       return axios
-        .get('https://quizapp-backend-974768286444.us-central1.run.app/limit/50')
+        .get('https://quizapp-backend-974768286444.us-central1.run.app/limit/25')
         .then((response) => {
           return response.data;
         })
@@ -164,8 +152,6 @@ export default function QuizPage() {
           console.log(error);
         });
     };
-  
-
   
     return (
       <>
@@ -202,7 +188,10 @@ export default function QuizPage() {
                 </MDBModalHeader>
                 <MDBModalBody className="flex flex-col items-center justify-center">
                 <h2 className="text-black text-3xl mt-10 mb-10 border-3 px-2 py-2 rounded-2xl">Correct Answers: {correctAnswers} / Total Questions: {storeQuestions.length}  = {(correctAnswers/ storeQuestions.length) * 100 } % </h2>
-                { (correctAnswers/ storeQuestions.length) * 100  >= 80 ? <h2 className="text-black text-3xl mt-10 mb-10 border-3 px-2 py-2 rounded-2xl">You Passed!</h2> : <><h2>Hey you failed but here is a meme:</h2> <img src={memes} alt="gif not found..." className="h-[30vh] w-[30vw] mb-10"/> </> }
+                { (correctAnswers/ storeQuestions.length) * 100  >= 80 ? <h2 className="text-black text-3xl mt-10 mb-10 border-3 px-2 py-2 rounded-2xl">You Passed!</h2> :
+                 <>
+                 <h2 className="text-black text-3xl mt-10 mb-10 border-3 px-2 py-2 rounded-2xl">You Failed!</h2> 
+                </> }
                </MDBModalBody>
                 <MDBModalFooter>
                 <MDBBtn color='secondary' onClick={returnHomePage}>
@@ -216,7 +205,6 @@ export default function QuizPage() {
           </MDBModalDialog>
       </MDBModal>
   
-   
 
          <form onSubmit={submit} className="  flex items-center justify-center "> 
           <label className="ml-4 mt-2">
@@ -276,15 +264,23 @@ export default function QuizPage() {
                     className='mb-2 mt-2 ml-2 mr-2'
                     onChange={() => handleAnswerChange(index, question.q_id ,'D')}
                   />
-                  {showAnswers && <h2 className="border-2 border-green-300 px-2 py-2 mt-2 mb-2">{question.answer}</h2>}
-
-                </div>
                 
-              ))}
-              
+                {showAnswers && (
+                <h2
+                  className={`px-2 py-2 mt-2 mb-2 border-2 rounded-md w-fit ${
+                    indexesOfIncorrect.includes(index)
+                      ? 'border-red-500 text-red-300'
+                      : 'border-green-500 text-green-300'
+                  }`}
+                >
+                  Correct Answer: {storeQuestions[index]?.answers}
+                </h2>
+                )}
+
+                </div>  
+              ))}   
             </form>
           </MDBRow>
-    
           {showButton && <input type="submit" value="Submit" className=" position:relative ml-2 mb-2 bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-center border-2 w-[10vw] h-[5vh]" onClick={send} /> }
         </MDBContainer>
         </div>
@@ -294,9 +290,5 @@ export default function QuizPage() {
     );
   
 }
-
-
-
-
 
 

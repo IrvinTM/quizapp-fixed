@@ -1,10 +1,41 @@
 import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadAll } from "@tsparticles/all"; 
+import { ToastContainer, toast } from 'react-toastify';
+import axios from "axios";
 
+
+//TODO add a loading icon during the login request
+
+async function getUsers(username, password) {
+  axios
+    .post("https://quizapp-backend-974768286444.us-central1.run.app/login", {
+      username: username,
+      password: password,
+    })
+    .then((response) => {
+        if (response.data.accessToken.length > 0) {
+        window.location.href = "/home";
+      } else if (response.data == "401 (Unauthorized)") {
+       alert("Invalid username or password");
+    }
+    })
+    .catch((error) => {
+        if (error.response && error.response.status === 401) {
+            toast("Invalid username or password");
+          } else {
+            alert("Something went wrong. Try again.");
+          }
+    });
+}
 
 
 function Login({ onSignUpClick }){
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+
     return (
     <div className="h-screen w-full flex items-center justify-center fixed z-100">
     <div className="container bg-white w-1/3 h-[60vh] rounded-2xl">
@@ -22,8 +53,10 @@ function Login({ onSignUpClick }){
      name="username"
      required
      minLength="4"
-     maxLength="10"
+     maxLength="20"
      size="10"
+     value={username}
+     onChange={(e) => setUsername(e.target.value)}
      className="border-black border-2 w-1/2 text-black mb-4"/>
      </div>
      <div className="flex items-center justify-center">
@@ -36,13 +69,15 @@ function Login({ onSignUpClick }){
      name="password"
      required
      minLength="4"
-     maxLength="8"
+     maxLength="20"
      size="10"
+     value={password}
+    onChange={(e) => setPassword(e.target.value)}
      className="border-black border-2 w-1/2 text-black mb-4"/>
     </div> 
 
     <div className="flex items-center justify-center mt-4 mb-10">
-    <button className=" text-white mr-4">Log In</button>
+    <button className=" text-white mr-4" onClick={() => getUsers(username, password)}>Log In</button>
     <button className=" text-white" onClick={onSignUpClick}>Sign Up</button>
     </div>
 
@@ -319,6 +354,8 @@ export default function LoginPage(){
             particlesLoaded={particlesLoaded}
             options={options}
           />
+        <ToastContainer position="top-center" />
+
            <div className="h-screen w-full flex items-center justify-center fixed z-100">
          {activeSection === "login" ? (
           <Login onSignUpClick={() => setActiveSection("SignUp")} />
