@@ -5,7 +5,7 @@
 
     const connector = new Connector();
     const clientOptions = await connector.getOptions({
-        instanceConnectionName: 'acostajulio-dev:us-central1:gpc-test-db',
+        instanceConnectionName: 'staging-environment-454514:us-central1:quizapp-alpha-db',
         ipType: 'PUBLIC',
     });
 
@@ -13,30 +13,38 @@
         ...clientOptions,
         user: 'root',
         password: 'Javascript1997!',
-        database: 'gcp_testzilla_db'
+        database: 'quizapp_users_test'
     }).promise();
  
-    export async function findSingleUser(username){
-        const [rows] = await pool.query('SELECT username, password FROM Users where username = ?', [username]);
-        return rows;
+    export async function findSingleUser(username) {
+      const [rows] = await pool.query(
+        "SELECT username, password, email, userid FROM users where username = ?",
+        [username]
+      );
+      return rows;
     }
 
 
-    export async function addUser(username, name, email, password){
-        const result = await pool.query(`INSERT INTO Users (username, name, email, password) VALUES (?,?,?,? )`, [username, name, email, password])
-        return result;
+    export async function addUser(username, email, password) {
+      const result = await pool.query(
+        `INSERT INTO users (username, email, password) VALUES (?,?,? )`,
+        [username, email, password]
+      );
+      return result;
+    }
+
+    export async function getData() {
+      const [rows] = await pool.query("SELECT * FROM questions");
+      return rows;
+    }
+
+
+     export async function getReducedData(quantity) {
+       const [rows] = await pool.query("SELECT * FROM questions LIMIT ?", [
+         parseInt(quantity),
+       ]);
+       return rows;
      }
-
-    export async function getData(){
-        const [rows] = await pool.query('SELECT * FROM questions');
-        return rows;
-    }
-
-
-     export async function getReducedData(quantity){
-        const [rows] = await pool.query('SELECT * FROM questions LIMIT ?' , [parseInt(quantity)]);
-        return rows;
-        }
 
 
         export async function getRandomData(randomized){
@@ -59,18 +67,21 @@
 
 
     export async function getUsers(){
-        const [rows] =  await pool.query('SELECT * FROM Users');
+        const [rows] =  await pool.query('SELECT * FROM users');
         return rows;
     }
 
-    export async function getScores(){
-        const [rows] =  await pool.query('SELECT * FROM Scorecard');
+    export async function getScores(userId){
+        const [rows] =  await pool.query('SELECT * FROM scores WHERE userid = ?', [userId]);
         return rows;
     }
 
-    export async function addScore(quantity, answers){
-       const result =  await pool.query(`INSERT INTO Scorecard (amount_of_questions, correct_questions, score) VALUES (?, ? ,?)`, [quantity, answers, answers/quantity])
-       return result;
+    export async function addScore(userId, quantity, answers) {
+      const result = await pool.query(
+        `INSERT INTO scores (userid, amount_of_questions, correct_answers, score) VALUES (?, ?, ? ,?)`,
+        [ userId, quantity, answers, answers / quantity]
+      );
+      return result;
     }
 
     
