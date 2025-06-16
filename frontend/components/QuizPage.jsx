@@ -81,7 +81,6 @@ export default function QuizPage() {
 
     const submit = async (e) => {
       e.preventDefault();
-
       if( formData.answers === "true" && parseInt(formData.quantity) >= 1 ){
         try {
            return await axios.get(`https://quizapp-backend-974768286444.us-central1.run.app/randomized/${parseInt(formData.quantity)}`).then((randomized) => {
@@ -129,10 +128,23 @@ export default function QuizPage() {
               indexesOfIncorrect.push(i)
             }
           }
-          console.log(indexesOfIncorrect)
 
           setCorrectAnswers(count)
           toggleOpen();
+              const token = localStorage.getItem("accessToken");
+              const payload = JSON.parse(atob(token.split('.')[1])); 
+              const userId = payload.userId; 
+              if(userId === undefined || userId === null){ 
+                console.error("User ID is undefined or null");
+                return;
+              }else{
+            axios.post('http://localhost:8000/scores', {
+            userid: userId,
+            quantity: storeQuestions.length,
+            answers: count
+          })
+              }
+         
         }
        catch (error) {
           console.error("Error getting data:", error);

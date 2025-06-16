@@ -28,12 +28,20 @@ export default function Analytics() {
     useEffect(() => {
         const fetchScores = async () => {
             try {
-                const response = await axios.get('https://quizapp-backend-974768286444.us-central1.run.app/scores');
+                const token = localStorage.getItem("accessToken");
+
+            const response = await axios.get(
+                'http://localhost:8000/scores',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, 
+                    },
+                }
+            );
                 const scoresData = response.data;
                 console.log(scoresData);
                 
-                 // Generates an array from the labels of the object that was returned from the API call
-                const labelsFromApi = scoresData.map(item => item.date.replace(/\.\d\d+\d[Z]/ , ""));
+                const labelsFromApi = scoresData.map(item => item.date_submitted.replace(/\.\d\d+\d[Z]/ , ""));
                 
                 const dataFromApi = scoresData.map(item => item.score);
 
