@@ -5,7 +5,7 @@
 
     const connector = new Connector();
     const clientOptions = await connector.getOptions({
-        instanceConnectionName: 'staging-environment-454514:us-central1:quizapp-alpha-db',
+        instanceConnectionName: 'acostajulio-dev:us-central1:gpc-test-db',
         ipType: 'PUBLIC',
     });
 
@@ -13,7 +13,7 @@
         ...clientOptions,
         user: 'root',
         password: 'Javascript1997!',
-        database: 'quizapp_users_test'
+        database: 'gcp_testzilla_db'
     }).promise();
  
     export async function findSingleUser(username) {
