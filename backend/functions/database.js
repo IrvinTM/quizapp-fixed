@@ -26,6 +26,10 @@
 
 
     export async function addUser(username, email, password) {
+      const checkExistingUser = await pool.query(`SELECT * FROM users WHERE username = ? ` , [username])
+      if(checkExistingUser[0].length > 0){
+        return "User already exists"
+      }
       const result = await pool.query(
         `INSERT INTO users (username, email, password) VALUES (?,?,? )`,
         [username, email, password]
