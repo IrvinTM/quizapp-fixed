@@ -138,7 +138,7 @@ export default function QuizPage() {
                 console.error("User ID is undefined or null");
                 return;
               }else{
-            axios.post('http://localhost:8000/scores', {
+            axios.post('https://quizapp-backend-974768286444.us-central1.run.app/scores', {
             userid: userId,
             quantity: storeQuestions.length,
             answers: count

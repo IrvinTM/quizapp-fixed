@@ -7,6 +7,8 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import pdfHomePage from '../src/assets/pdfHomePage.png';
 import supportHomePage from '../src/assets/supportHomePage.png';
 import Collaboration from './Collaboration.jsx';
+import { Outlet, Link } from "react-router-dom";
+
 
 
 
@@ -20,7 +22,7 @@ export default function HomePage() {
       <div className='h-screen w-full bg-black'>
       <div className="flex items-center justify-center h-50 bg-[oklch(0.141_0.005_285.823)]">
       <div className="flex items-center justify-center bg-black-100 p-3 rounded-lg hover:scale-105 transition-transform hover:text-blue-500 duration-300">
-      <a href="/Quiz" className="flex w-42 py-2 px-2 items-center justify-center border-double text-xl text-white border-5 rounded-lg border-blue-500 hover:border-blue-300">Take ACE Quiz</a>
+      <Link to="/Quiz" className="flex w-42 py-2 px-2 items-center justify-center border-double text-xl text-white border-5 rounded-lg border-blue-500 hover:border-blue-300">Take ACE Quiz</Link>
         </div>
       </div>
       
@@ -33,7 +35,7 @@ export default function HomePage() {
         <Card.Text className="text-md text-white ml-1 mb-5"> 
           View your performances and track your progress.
         </Card.Text>
-        <a href="/Analytics" variant="dark" className=" text-blue-500 items-center justify-center mt-2 mb-20 rounded-2xl text-2xl py-2 px-4 transition-colors duration-500 border-black bg-gray-900 hover:border-1 hover:border-blue-500">Go Analytics</a>      </Card.Body>
+        <Link to="/Analytics" variant="dark" className=" text-blue-500 items-center justify-center mt-2 mb-20 rounded-2xl text-2xl py-2 px-4 transition-colors duration-500 border-black bg-gray-900 hover:border-1 hover:border-blue-500">Go Analytics</Link>      </Card.Body>
       <Card.Footer className="mt-4">
         <small className="text-muted ml-2 mt-10">Last updated 3 mins ago</small>
       </Card.Footer>
@@ -45,7 +47,7 @@ export default function HomePage() {
     <Card.Text className="text-md text-white ml-1 mb-5">
           Don't want to take a Quiz? Just want to review the questions we got you.
         </Card.Text>
-        <a href="/Questions" variant="dark" className="  text-blue-500 items-center justify-center mt-2 mb-20 rounded-2xl text-2xl py-2 px-4 transition-colors duration-500 border-black bg-gray-900 hover:border-1 hover:border-blue-500">Go Questions</a>      </Card.Body>
+        <Link to="/Questions" variant="dark" className="  text-blue-500 items-center justify-center mt-2 mb-20 rounded-2xl text-2xl py-2 px-4 transition-colors duration-500 border-black bg-gray-900 hover:border-1 hover:border-blue-500">Go Questions</Link>      </Card.Body>
       <Card.Footer className='mb-2 mt-5'>
       <small className="text-muted ml-2">Last updated 3 mins ago</small>
       </Card.Footer>

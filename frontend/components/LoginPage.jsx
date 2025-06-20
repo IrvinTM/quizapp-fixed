@@ -8,11 +8,9 @@ import axios from "axios";
 // TODO add the correct url for production
 
 
-
-
 async function getUsers(username, password) {
   try {
-    const response = await axios.post("http://localhost:8000/login", {
+    const response = await axios.post("https://quizapp-backend-974768286444.us-central1.run.app/login", {
       username: username,
       password: password,
     });
@@ -20,7 +18,7 @@ async function getUsers(username, password) {
     if (response.data.accessToken && response.data.accessToken.length > 0) {
       // Set the token in localStorage
       localStorage.setItem("accessToken", response.data.accessToken);
-
+      console.log(response.data.accessToken)
       // Redirect to home
       window.location.href = "/home";
     } else {
@@ -95,12 +93,7 @@ function Login({ onSignUpClick }) {
         </div>
 
         <div className="flex items-center justify-center mt-4 mb-10">
-          <a
-            href="/"
-            className="text-xl text-white border-2 px-4 py-4 border-black bg-black"
-          >
-            Proceed without data
-          </a>
+    
         </div>
       </div>
     </div>
@@ -114,27 +107,41 @@ function SignUp({ onLoginClick }) {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const sendNewUser = async () => {
-  if (password !== confirmPassword) {
-    toast.error("Passwords do not match");
-    return;
-  }
-
-  try {
-    const response = await axios.post("http://localhost:8000/signup", {
-      username,
-      email,
-      password,
-    });
-
-    if (response.status === 200 || response.status === 201) {
-      toast.success("Signup successful! You can now log in.");
-      onLoginClick(); // redirect to login
+    // Field blank check
+    if (!username || !email || !password || !confirmPassword) {
+      toast.error("Please fill in all fields");
+      return;
     }
-  } catch (error) {
-    toast.error("Signup failed. Try again.");
-    console.error(error);
-  }
-};
+  
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+  
+    try {
+      const response = await axios.post("https://quizapp-backend-974768286444.us-central1.run.app/signup", {
+        username,
+        email,
+        password,
+      });
+
+
+  
+      if (response.status === 200 || response.status === 201) {
+        toast.success("Signup successful! You can now log in.");
+        onLoginClick(); // redirect to login
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        toast.error("Username already exists, please choose another username");
+      } else {
+        toast.error("Signup failed, please try again");
+      }
+      console.error(error);
+   
+    }
+  };
 
   return (
     <div className="h-screen w-full flex items-center justify-center fixed z-100">
@@ -224,7 +231,7 @@ function SignUp({ onLoginClick }) {
 
         <div className="flex items-center justify-center mt-5 ">
           <button className=" text-white mr-5" onClick={onLoginClick}>
-            Log In
+            Return 
           </button>
           <button className=" text-white ml-5" onClick={sendNewUser}>
             Sign Up

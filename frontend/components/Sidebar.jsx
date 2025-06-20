@@ -5,6 +5,11 @@ import { useContext, createContext } from "react";
 
 const SidebarContext = createContext();
 export default function Sidebar({ children, expanded, setExpanded }) {
+
+    const token = localStorage.getItem("accessToken");
+    const payload = JSON.parse(atob(token.split('.')[1])); 
+    const username = payload.username; 
+    const email = payload.email; 
     return (
         <aside className={`h-screen ${expanded ? "w-64" : "w-16"} transition-all duration-300`}>
             <nav className="h-full flex flex-col bg-black border-r shadow-sm">
@@ -33,14 +38,14 @@ export default function Sidebar({ children, expanded, setExpanded }) {
 
                 <div className="border-t flex p-3 mb-10">
                     <img
-                        src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
+                        src="https://cdn.postindustria.com/wp-content/uploads/2021/08/GCP-cloud@2x.jpg"
                         alt=""
-                        className="w-10 h-10 rounded-md bg-white"
+                        className="w-11 h-11 rounded-md bg-white"
                     />
                     <div className={`transition-all overflow-hidden ${expanded ? "w-52 ml-3" : "w-0"}`}>
                         <div className="leading-4">
-                            <h4 className="font-semibold">John Doe</h4>
-                            <span className="text-xs text-white">johndoe@gmail.com</span>
+                            <h4 className="font-semibold">{username}</h4>
+                            <span className="text-xs text-white">{email}</span>
                         </div>
                     </div>
                 </div>

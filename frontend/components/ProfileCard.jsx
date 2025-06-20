@@ -1,16 +1,12 @@
 
-    const token = localStorage.getItem("accessToken");
-    const payload = JSON.parse(atob(token.split('.')[1])); 
-    const userId = payload.userId; 
-    const username = payload.username; 
-    const email = payload.email; 
 
 //TODO add the NASA API key in the fetch URL
+import { useState, useEffect } from "react";
 
 async function getNasaData() {
   try {
     const response = await fetch(
-      "https://api.nasa.gov/planetary/apod?api_key="
+      "https://api.nasa.gov/planetary/apod?api_key=uYJ46jxeIdTFApzvF3uuCjc69G1HyNAYC7uvpmWr"
     );
 
     if (response.status === 429) {
@@ -45,10 +41,25 @@ async function getNasaData() {
   }
 }
 
-const nasaData = await getNasaData();
 
-console.log(nasaData);
+
     export default function ProfileCard() {
+      const [nasaData, setNasaData] = useState(null);
+
+      useEffect(() => {
+        getNasaData().then(data => setNasaData(data));
+      }, []);
+
+      
+
+      if (!nasaData) return <div>Loading NASA image...</div>;
+
+    const token = localStorage.getItem("accessToken");
+    const payload = JSON.parse(atob(token.split('.')[1])); 
+    const userId = payload.userId; 
+    const username = payload.username; 
+    const email = payload.email; 
+
       return (
             <div className="flex flex-col text-center p-4 h-screen bg-black border-gray-800 border-4 drop-shadow-md rounded-lg">
                 <img
@@ -56,7 +67,7 @@ console.log(nasaData);
                     src={nasaData.hdurl}
                     alt="https://hips.hearstapps.com/wdy.h-cdn.co/assets/17/39/1600x1066/gallery-1506709524-cola-0247.jpg?resize=1024:*"
                 />
-                <h2 className="font-bold text-2xl ">{username}</h2>
+                <h2 className="font-bold text-2xl mt-4">{username}</h2>
                 <h3 className="text-lg font-medium text-gray-600 mb-2 mt-2">Cloud Support Engineer</h3>
                 <hr/>
                 <p className='text-gray-600 text-left self-start mt-5'>User Id</p>

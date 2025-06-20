@@ -31,7 +31,7 @@ export default function Analytics() {
                 const token = localStorage.getItem("accessToken");
 
             const response = await axios.get(
-                'http://localhost:8000/scores',
+                'https://quizapp-backend-974768286444.us-central1.run.app/scores',
                 {
                     headers: {
                         Authorization: `Bearer ${token}`, 
@@ -39,9 +39,8 @@ export default function Analytics() {
                 }
             );
                 const scoresData = response.data;
-                console.log(scoresData);
                 
-                const labelsFromApi = scoresData.map(item => item.date_submitted.replace(/\.\d\d+\d[Z]/ , ""));
+                const labelsFromApi = scoresData.map(item => item.date.replace(/\.\d\d+\d[Z]/ , ""));
                 
                 const dataFromApi = scoresData.map(item => item.score);
 
@@ -125,12 +124,11 @@ export default function Analytics() {
                 {chartData.labels.length > 0 && (
                     <Line ref={chartRef}  data={chartData} className='ml-20' />
                 )}
-                {chartData.labels.length === 0 && (
-                    <div>Loading data...</div>
-                )}
+                {/*
                     {chartData.labels.length > 0 && (
                     <Doughnut ref={chartRef}  options= {doughnutOptions} data={doughnutData} className='ml-40' />
                 )}
+                */}
                 {chartData.labels.length === 0 && (
                     <div className='flex w-full items-center justify-center'>
                         <div className='container bg-gray-800 w-1/3 h-1/2'>
