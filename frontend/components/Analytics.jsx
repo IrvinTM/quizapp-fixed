@@ -1,12 +1,13 @@
 import NavBar from './NavBar';
 import axios from "axios";
 import React, { useRef, useEffect, useState } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from "chart.js";
-import { Line, Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement, BarElement} from "chart.js";
+import { Line, Doughnut, Bar } from "react-chartjs-2";
 
 ChartJS.register(
-    CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement
+    CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement, BarElement
 );
+
 
 
 export default function Analytics() {
@@ -23,7 +24,21 @@ export default function Analytics() {
             },
         ],
     });
+
+    const [chartRatioData, setChartRatioData] = useState({
+        labels: [],
+        datasets: [
+            {
+                label: "Passing scores",
+                data: [],
+                fill: false,
+                borderColor: "rgb(75, 192, 192)",
+                tension: 0.1,
+            },
+        ],
+    });
     const chartRef = useRef(null);
+    const chartRef2 = useRef(null);
 
     useEffect(() => {
         const fetchScores = async () => {
@@ -38,10 +53,10 @@ export default function Analytics() {
                     },
                 }
             );
+            // TODO create a chart that shows the numbers of tests passed vs numbers failed
+
                 const scoresData = response.data;
-                
                 const labelsFromApi = scoresData.map(item => item.date.replace(/\.\d\d+\d[Z]/ , ""));
-                
                 const dataFromApi = scoresData.map(item => item.score);
 
                 setChartData({
@@ -64,6 +79,49 @@ export default function Analytics() {
 
         fetchScores();
     }, []); 
+
+
+    useEffect(() => {
+        const fetchRatio = async () => {
+            try {
+                const token = localStorage.getItem("accessToken");
+
+            const response = await axios.get(
+                'https://quizapp-backend-974768286444.us-central1.run.app/scores',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, 
+                    },
+                }
+            );
+            // TODO create a chart that shows the numbers of tests passed vs numbers failed
+
+                let scoresData = response.data;
+                scoresData = scoresData.filter((x) => parseFloat(x.score) > 0.40)
+                console.log(scoresData.length)
+
+                setChartRatioData({
+                    labels: ['Exams Passed', 'Exams Failed'],
+                    datasets: [
+                        {
+                            label: "Amount Of Exams With Passing Scores",
+                            data: [scoresData.length],
+                            backgroundColor: "rgb(75, 192, 192)",
+                            tension: 0.1,
+                        },
+                    ],
+                });
+
+            } catch (error) {
+                console.error("Error fetching scores:", error);
+            }
+        };
+
+        fetchRatio();
+    }, []); 
+
+    
+    
 
 
 
@@ -120,13 +178,17 @@ export default function Analytics() {
             <div className='flex-wrap flex items-center justify-center w-[100vw]'>
             </div>
 
-            <div className="chart w-[100vw] h-[50vh] flex ">
+            <div className="chart w-[100vw] h-[45vh] flex">
                 {chartData.labels.length > 0 && (
-                    <Line ref={chartRef}  data={chartData} className='ml-20' />
+                    <Line ref={chartRef}  data={chartData} className='ml-2' />
                 )}
-                {/*
-                    {chartData.labels.length > 0 && (
-                    <Doughnut ref={chartRef}  options= {doughnutOptions} data={doughnutData} className='ml-40' />
+
+                 {chartRatioData.labels.length > 0 && (
+                    <Bar ref={chartRef2}  data={chartRatioData} className='ml-2 border-1 border-white' />
+                )}
+                
+                    {/* {chartData.labels.length > 0 && (
+                    <Doughnut ref={chartRef}  options= {doughnutOptions} data={doughnutData} className='ml-2 mt-10' />
                 )}
                 */}
                 {chartData.labels.length === 0 && (
@@ -143,6 +205,7 @@ export default function Analytics() {
                         </div>
                     </div>
                  )} 
+                 
             </div>
             </div>
         </>

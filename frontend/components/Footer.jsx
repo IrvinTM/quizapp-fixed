@@ -1,5 +1,3 @@
-
-
 export default function Footer(){
     return (
         <div className="w-[100vw] bg-violet-950 h-[5vh]">

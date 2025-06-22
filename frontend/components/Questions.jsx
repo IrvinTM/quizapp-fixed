@@ -12,16 +12,14 @@ export default function Questions(){
   
     const getQuestions = () => {
         return axios
-          .get('https://acostajulio-dev.wl.r.appspot.com')
+          .get('https://quizapp-backend-974768286444.us-central1.run.app/limit/253')
           .then((response) => {
             return response.data;
           })
           .catch((error) => {
             console.log(error);
           });
-      };
-
-
+      }
 
 
     return(
@@ -34,7 +32,7 @@ export default function Questions(){
           <p className="mt-2 mb-2 px-2 py-2">{question.opt_b}</p>
           <p className="mt-2 mb-2 px-2 py-2">{question.opt_c}</p>
           <p className="mt-2 mb-2 px-2 py-2">{question.opt_d}</p>
-          <p className="mt-2 mb-2 px-2 py-2 ">{question.answer}</p>
+          <p className="mt-2 mb-2 px-2 py-2 border-2 border-green-300 ">{question.answer}</p>
           </div>
         ))}
 

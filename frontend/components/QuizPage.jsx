@@ -52,7 +52,6 @@ export default function QuizPage() {
 
     useEffect(() => {
       setLoading(true);
-    
         getQuestions().then((data) => setQuestions(data)).finally(()=> setLoading(false));
 
     }, []);
@@ -71,7 +70,7 @@ export default function QuizPage() {
     };
     
     const returnHomePage = () => {
-      navigate('/');
+      navigate('/home');
 
     }
     

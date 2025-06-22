@@ -21,8 +21,6 @@ import Sidebar, { SidebarItem } from "./Sidebar";
 import Cards from './Cards';
 
 
-
-
 export default function EmployeeProfile(){
     const [expanded, setExpanded] = useState(true);
 
