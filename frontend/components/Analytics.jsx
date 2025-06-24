@@ -53,10 +53,10 @@ export default function Analytics() {
                     },
                 }
             );
-            // TODO create a chart that shows the numbers of tests passed vs numbers failed
 
                 const scoresData = response.data;
-                const labelsFromApi = scoresData.map(item => item.date.replace(/\.\d\d+\d[Z]/ , ""));
+                const labelsFromApi = scoresData.map(item => item.date.replace(/\d\-\d\d\-\d\d/ , ""));
+                console.log(labelsFromApi)
                 const dataFromApi = scoresData.map(item => item.score);
 
                 setChartData({
@@ -70,6 +70,13 @@ export default function Analytics() {
                             tension: 0.1,
                         },
                     ],
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'time',
+                            }
+                        }
+                    }
                 });
 
             } catch (error) {
@@ -96,8 +103,8 @@ export default function Analytics() {
             );
             // TODO create a chart that shows the numbers of tests passed vs numbers failed
 
-                let scoresData = response.data;
-                scoresData = scoresData.filter((x) => parseFloat(x.score) > 0.40)
+                const scoresData = response.data;
+                const passedExams = scoresData.filter((x) => parseFloat(x.score) > 0.80)
                 console.log(scoresData.length)
 
                 setChartRatioData({
@@ -105,8 +112,8 @@ export default function Analytics() {
                     datasets: [
                         {
                             label: "Amount Of Exams With Passing Scores",
-                            data: [scoresData.length],
-                            backgroundColor: "rgb(75, 192, 192)",
+                            data: [passedExams.length, scoresData.length - passedExams.length],
+                            backgroundColor: ["rgb(75, 192, 192)" , "rgb(237, 59, 59)"],
                             tension: 0.1,
                         },
                     ],
@@ -184,7 +191,7 @@ export default function Analytics() {
                 )}
 
                  {chartRatioData.labels.length > 0 && (
-                    <Bar ref={chartRef2}  data={chartRatioData} className='ml-2 border-1 border-white' />
+                    <Bar ref={chartRef2}  data={chartRatioData} className='ml-2' />
                 )}
                 
                     {/* {chartData.labels.length > 0 && (

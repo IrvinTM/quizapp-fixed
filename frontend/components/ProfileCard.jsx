@@ -61,7 +61,7 @@ async function getNasaData() {
     const email = payload.email; 
 
       return (
-            <div className="flex flex-col text-center p-4 h-screen bg-black border-gray-800 border-4 drop-shadow-md rounded-lg">
+            <div className="flex flex-col text-center p-4 h-screen bg-black border-gray-800 border-4 drop-shadow-md rounded-lg items-center">
                 <img
                     className="w-[14vw] h-[14vw] rounded-full object-cover"
                     src={nasaData.hdurl}
